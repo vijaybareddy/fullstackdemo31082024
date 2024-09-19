@@ -28,6 +28,41 @@ import java.util.UUID;
 
 
 public class AccountService {
+    public String createAccountByJpa(Account account) {
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaDemo");
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setAccountnumber(UUID.randomUUID().toString());
+        accountEntity.setName(account.getName());
+        accountEntity.setPan(account.getPan());
+        accountEntity.setBalance(account.getBalance());
+        accountEntity.setAddress("hyd");
+        accountEntity.setMoblieNumber(account.getMobileNumber());
+
+        List<AccountAddressEntity> addressEntityList = new ArrayList<>();
+        AccountAddressEntity accountAddressEntity = new AccountAddressEntity();
+
+        accountAddressEntity.setAddress1(account.getAddress().getAdd1());
+        accountAddressEntity.setAddress2(account.getAddress().getAdd2());
+        accountAddressEntity.setPincode(account.getAddress().getPincode());
+        accountAddressEntity.setCity(account.getAddress().getCity());
+        accountAddressEntity.setState(account.getAddress().getStates());
+        accountAddressEntity.setStatus(1);
+        accountAddressEntity.setAccountEntity(accountEntity);
+        addressEntityList.add(accountAddressEntity);
+        accountEntity.setAccountAddressEntityList(addressEntityList);
+
+        entityManager.persist(accountEntity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        emf.close();
+
+        return accountEntity.getAccountnumber();
+    }
+
 
     public Account searchAccountByJpa(String accountNumber){
         EntityManagerFactory emf=Persistence.createEntityManagerFactory("jpaDemo");

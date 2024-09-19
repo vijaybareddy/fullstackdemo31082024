@@ -65,7 +65,15 @@ public class  AccountController {
         AccountService accountService=new AccountService();
         return accountService.withdraw(request);
     }
+    @PostMapping(value = "/api/createAccount/jpa", consumes = "application/json", produces = "application/json")
+    public Account createAccountUsingJPA(@RequestBody Account account) throws AccountCreationFailedExpcetion {
 
+        AccountService accountService=new AccountService();
+        String accountnumber = accountService.createAccountByJpa(account);
 
+        account.setAccountnumber(accountnumber);
+
+        return account;
+    }
 
 }
