@@ -1,5 +1,6 @@
 package com.fullstackdemo_31082024.fullstackdemo_31082024.Service;
 
+import com.fullstackdemo_31082024.fullstackdemo_31082024.Repository.AccountRepository;
 import com.fullstackdemo_31082024.fullstackdemo_31082024.expcetion.AccountCreationFailedExpcetion;
 import com.fullstackdemo_31082024.fullstackdemo_31082024.model.Account;
 import com.fullstackdemo_31082024.fullstackdemo_31082024.model.Address;
@@ -18,16 +19,51 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import java.util.Objects;
-import java.util.UUID;
-
+@Service(value = "accountServiceTest")
 
 public class AccountService {
+    @Autowired
+    AccountRepository accountRepository;
+    public Account searchAccountByMangedJPA(String accountNumber){
+        Account account=null;
+        Optional<AccountEntity>optionalAccountEntity=accountRepository.findById(accountNumber);
+        if (optionalAccountEntity.isPresent()) {
+            AccountEntity accountEntity = optionalAccountEntity.get();
+
+            account = Account.builder()
+                    .accountnumber(accountEntity.getAccountnumber())
+                    .mobileNumber(accountEntity.getMoblieNumber())
+                    .pan(accountEntity.getPan())
+                    .balance(accountEntity.getBalance())
+                    .name(accountEntity.getName())
+                    .build();
+            List<AccountAddressEntity> accountAddressEntityList =
+                    accountEntity.getAccountAddressEntityList();
+
+            if (Objects.nonNull(accountAddressEntityList) && accountAddressEntityList.size() > 0) {
+
+                AccountAddressEntity accountAddressEntity = accountAddressEntityList.get(0);
+                System.out.println("AccountAddressEntity is Loaded");
+                Address address = new Address();
+                address.setAdd1(accountAddressEntity.getAddress1());
+                address.setAdd2(accountAddressEntity.getAddress2());
+                address.setPincode(accountAddressEntity.getPincode());
+                address.setCity(accountAddressEntity.getCity());
+                address.setStates(accountAddressEntity.getState());
+                account.setAddress(address);
+
+
+            }
+        }
+        return account;
+
+    }
+
     public String createAccountByJpa(Account account) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaDemo");
@@ -98,7 +134,7 @@ public class AccountService {
 
         }
         entityManager.getTransaction().commit();
-       return account;
+        return account;
 
     }
 
@@ -124,7 +160,7 @@ public class AccountService {
                                 .city(accountEntity.getAccountAddressEntityList().get(0).getCity())
                                 .states(accountEntity.getAccountAddressEntityList().get(0).getState()).build()
 
-                        )
+                )
                 .build();
 
 
@@ -224,7 +260,7 @@ public class AccountService {
     @Autowired
     private DBConnection dbConnection;
 
-    public String createAccount(Account account) throws Exception {
+    public String createAccount(Account account)  {
         String accountNumber = null;
         try {
             Connection connection = DBConnection.getConnection();
@@ -252,7 +288,7 @@ public class AccountService {
             }
         } catch (Exception ex) {
             System.out.println("Exception Occured " + ex);
-            throw ex;//rethrowing the existing exception using throws.
+            // throw ex;//rethrowing the existing exception using throws.
             // throw-> it will throw the exception and it will create new exception and it will rethrow the exception even checked or unchecked or custom exceptions
             //throws-> to handle the re-throw the Exception.
         }

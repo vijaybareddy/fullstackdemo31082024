@@ -3,77 +3,114 @@ package com.fullstackdemo_31082024.fullstackdemo_31082024.controller;
 import com.fullstackdemo_31082024.fullstackdemo_31082024.Service.AccountService;
 import com.fullstackdemo_31082024.fullstackdemo_31082024.expcetion.AccountCreationFailedExpcetion;
 import com.fullstackdemo_31082024.fullstackdemo_31082024.model.Account;
-import com.fullstackdemo_31082024.fullstackdemo_31082024.model.WithdrawlRequest;
-import org.apache.coyote.Request;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpHeaders;
-import java.util.List;
-
+@CrossOrigin("*")
 @RestController
-    @CrossOrigin("*")
-public class  AccountController {
-     /*  @PostMapping(value="/api/createAccount",
-                consumes = "application/json",
-                produces = "application/json")
-        public Account getAccountNumber(@RequestBody Account account)
-                throws Exception {
-            AccountService accountService=new AccountService();
-            String accountNumber=accountService.createAccount(account);
-            account.setAccountnumber(accountNumber);
-            return account;
-      /*  }
-   @PostMapping(value="/api/createAccount",
+public class AccountController {
+
+    @Autowired
+    AccountService accountServiceTest;
+
+    @PostMapping(value = "/api/createAccount/jdbc",
             consumes = "application/json",
             produces = "application/json")
-    public Account getaccountNumberUsingHibernate(@RequestBody Account account)
-            throws Exception {
-        AccountService accountService=new AccountService();
-        String accountNumber=accountService.oneTOManyUsingHibernate(account);
-        account.setAccountnumber(accountNumber);
-        return account;
-    }*/
-    @PostMapping(value="/api/createAccount",
-            consumes = "application/json",
-            produces = "application/json")
-    public Account getaccountNumberUsingHibernateFromUi(@RequestBody Account account)
-            throws Exception {
-        AccountService accountService=new AccountService();
-        String accountNumber=accountService.OneToManyUsingHibernateFromUI(account);
+
+    public Account getAccountNumber(@RequestBody Account account)
+            throws AccountCreationFailedExpcetion {
+
+        AccountService accountService = new AccountService();
+        String accountNumber = accountService.createAccount(account);
         account.setAccountnumber(accountNumber);
         return account;
     }
-    @GetMapping(value="/api/searchAccount/hibernate",
+
+    @PostMapping(value = "/api/createAccount/singleTable",
             consumes = "application/json",
             produces = "application/json")
-    public Account searchAccount(@RequestHeader (name = "accountinput")
+
+    public Account getAccountNumberHibernatesingleTable(@RequestBody Account account)
+            throws AccountCreationFailedExpcetion {
+
+        AccountService accountService = new AccountService();
+        String accountNumber = accountService.createAccountUsingHibernate(account);
+        account.setAccountnumber(accountNumber);
+        return account;
+    }
+
+    @PostMapping(value = "/api/createAccount/hibernate",
+            consumes = "application/json",
+            produces = "application/json")
+
+    public Account getAccountNumberHibernate(@RequestBody Account account)
+            throws AccountCreationFailedExpcetion {
+
+        AccountService accountService = new AccountService();
+        String accountNumber = accountService.OneToManyUsingHibernateFromUI(account);
+        account.setAccountnumber(accountNumber);
+        return account;
+    }
+
+    @PostMapping(value = "/api/createAccount",
+            consumes = "application/json",
+            produces = "application/json")
+
+    public Account getAccountNumberHibernatefromUI(@RequestBody Account account)
+            throws AccountCreationFailedExpcetion {
+
+        AccountService accountService = new AccountService();
+        String accountNumber = accountService.OneToManyUsingHibernateFromUI(account);
+        account.setAccountnumber(accountNumber);
+        return account;
+    }
+
+    @GetMapping(value = "/api/searchAccount/hibernate",
+            consumes = "application/json",
+            produces = "application/json")
+
+    public Account searchAccount(@RequestHeader("accountinput")
                                  String accountNumber) {
-        AccountService accountService=new AccountService();
+
+        //    List<String> accountNumberList = httpHeaders.get("accountinput");
+
+        //   String accuntFromhttpHeader = accountNumberList.get(0);
+
+        AccountService accountService = new AccountService();
         return accountService.searchAccount(accountNumber);
+
     }
 
-    @GetMapping(value="/api/searchAccount",
+    @GetMapping(value = "/api/searchAccount/nonmanagedjpa",
             consumes = "application/json",
             produces = "application/json")
-    public Account searchAccountUsingJpa(@RequestHeader (name = "accountnumber")
-                                         String accountNumber) {
-        AccountService accountService=new AccountService();
+
+    public Account searchAccountJPA(@RequestHeader("accountinput")
+                                    String accountNumber) {
+
+        //    List<String> accountNumberList = httpHeaders.get("accountinput");
+
+        //   String accuntFromhttpHeader = accountNumberList.get(0);
+
+        AccountService accountService = new AccountService();
         return accountService.searchAccountByJpa(accountNumber);
+
     }
-    @PostMapping(value = "/api/withdraw", consumes = "application/json", produces = "application/json")
-    public Account withdraw(@RequestBody WithdrawlRequest request) throws Exception {
-        AccountService accountService=new AccountService();
-        return accountService.withdraw(request);
-    }
-    @PostMapping(value = "/api/createAccount/jpa", consumes = "application/json", produces = "application/json")
-    public Account createAccountUsingJPA(@RequestBody Account account) throws AccountCreationFailedExpcetion {
 
-        AccountService accountService=new AccountService();
-        String accountnumber = accountService.createAccountByJpa(account);
+    @GetMapping(value = "/api/searchAccount",
+            consumes = "application/json",
+            produces = "application/json")
 
-        account.setAccountnumber(accountnumber);
+    public Account searchAccountManagedJPA(@RequestHeader("accountinput")
+                                           String accountNumber) {
 
-        return account;
+        //    List<String> accountNumberList = httpHeaders.get("accountinput");
+
+        //   String accuntFromhttpHeader = accountNumberList.get(0);
+
+
+        return accountServiceTest.searchAccountByMangedJPA(accountNumber);
+
     }
 
 }
