@@ -1,13 +1,19 @@
+//package entity;
 package entity;
 
+
+
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Table(name = "account",schema = "bank")
 @Entity
 @Data
+@AllArgsConstructor
 public class AccountEntity {
     public AccountEntity(){
 
@@ -20,7 +26,7 @@ public class AccountEntity {
     private String accountnumber;
     @Column(name = "pan",nullable = false)
     private String pan;
-    @Column(name = "moblieNumber",nullable = false)
+    @Column(name = "moblienumber",nullable = false)
     private String moblieNumber;
     @Column(name = "balance",nullable = false)
     private double balance;

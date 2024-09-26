@@ -6,7 +6,7 @@ import com.fullstackdemo_31082024.fullstackdemo_31082024.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RestController
 public class AccountController {
 
@@ -21,7 +21,7 @@ public class AccountController {
             throws AccountCreationFailedExpcetion {
 
         AccountService accountService = new AccountService();
-        String accountNumber = accountService.createAccount(account);
+        String accountNumber = accountService.createAccountByJpa(account);
         account.setAccountnumber(accountNumber);
         return account;
     }
@@ -109,7 +109,7 @@ public class AccountController {
         //   String accuntFromhttpHeader = accountNumberList.get(0);
 
 
-        return accountServiceTest.searchAccountByMangedJPA(accountNumber);
+        return accountServiceTest.searchAccountByJpa(accountNumber);
 
     }
 

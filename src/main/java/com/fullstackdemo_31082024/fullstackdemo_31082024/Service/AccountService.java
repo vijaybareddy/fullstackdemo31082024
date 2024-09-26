@@ -24,46 +24,47 @@ import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.*;
 
-@Service(value = "accountServiceTest")
-
+@Service
 public class AccountService {
-    @Autowired
-    AccountRepository accountRepository;
-    public Account searchAccountByMangedJPA(String accountNumber){
-        Account account=null;
-        Optional<AccountEntity>optionalAccountEntity=accountRepository.findById(accountNumber);
-        if (optionalAccountEntity.isPresent()) {
-            AccountEntity accountEntity = optionalAccountEntity.get();
-
-            account = Account.builder()
-                    .accountnumber(accountEntity.getAccountnumber())
-                    .mobileNumber(accountEntity.getMoblieNumber())
-                    .pan(accountEntity.getPan())
-                    .balance(accountEntity.getBalance())
-                    .name(accountEntity.getName())
-                    .build();
-            List<AccountAddressEntity> accountAddressEntityList =
-                    accountEntity.getAccountAddressEntityList();
-
-            if (Objects.nonNull(accountAddressEntityList) && accountAddressEntityList.size() > 0) {
-
-                AccountAddressEntity accountAddressEntity = accountAddressEntityList.get(0);
-                System.out.println("AccountAddressEntity is Loaded");
-                Address address = new Address();
-                address.setAdd1(accountAddressEntity.getAddress1());
-                address.setAdd2(accountAddressEntity.getAddress2());
-                address.setPincode(accountAddressEntity.getPincode());
-                address.setCity(accountAddressEntity.getCity());
-                address.setStates(accountAddressEntity.getState());
-                account.setAddress(address);
-
-
-            }
-        }
-        return account;
-
-    }
-
+//    @Autowired
+//    AccountRepository accountRepository;
+//    public Account searchAccountByManagedJpa(String accountnumber){
+//       Account account=null;
+//     Optional<AccountEntity> optionalAccountEntity=accountRepository.findById(accountnumber);
+//        if(optionalAccountEntity.isPresent()) {
+//            AccountEntity accountEntity = optionalAccountEntity.get();
+//            account = Account.builder()
+//                    .accountnumber(accountEntity.getAccountnumber())
+//                    .name(accountEntity.getName())
+//                   .mobileNumber(accountEntity.getMoblieNumber())
+//                  .balance(accountEntity.getBalance())
+//                   .pan(accountEntity.getPan())
+//                    .balance(accountEntity.getBalance())
+//                   .build();
+//
+//
+//           List<AccountAddressEntity> accountAddressEntityList =
+//                   accountEntity.getAccountAddressEntityList();
+//
+//
+//       if (Objects.nonNull(accountAddressEntityList)&& accountAddressEntityList.size()>0) {
+//
+//           AccountAddressEntity accountAddressEntity = accountAddressEntityList.get(0);
+//           System.out.println("AccountAddressEntity is Loaded");
+//           Address address = new Address();
+//           address.setAdd1(accountAddressEntity.getAddress1());
+//           address.setAdd2(accountAddressEntity.getAddress2());
+//           address.setPincode(accountAddressEntity.getPincode());
+//           address.setCity(accountAddressEntity.getCity());
+//           address.setStates(accountAddressEntity.getState());
+//           account.setAddress(address);
+//       }
+//
+//        }
+//       System.out.println(account);
+//        return account;
+//
+//   }
     public String createAccountByJpa(Account account) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaDemo");
@@ -134,7 +135,7 @@ public class AccountService {
 
         }
         entityManager.getTransaction().commit();
-        return account;
+       return account;
 
     }
 
@@ -160,7 +161,7 @@ public class AccountService {
                                 .city(accountEntity.getAccountAddressEntityList().get(0).getCity())
                                 .states(accountEntity.getAccountAddressEntityList().get(0).getState()).build()
 
-                )
+                        )
                 .build();
 
 
@@ -260,7 +261,7 @@ public class AccountService {
     @Autowired
     private DBConnection dbConnection;
 
-    public String createAccount(Account account)  {
+    public String createAccount(Account account) throws Exception {
         String accountNumber = null;
         try {
             Connection connection = DBConnection.getConnection();
@@ -288,7 +289,7 @@ public class AccountService {
             }
         } catch (Exception ex) {
             System.out.println("Exception Occured " + ex);
-            // throw ex;//rethrowing the existing exception using throws.
+            throw ex;//rethrowing the existing exception using throws.
             // throw-> it will throw the exception and it will create new exception and it will rethrow the exception even checked or unchecked or custom exceptions
             //throws-> to handle the re-throw the Exception.
         }

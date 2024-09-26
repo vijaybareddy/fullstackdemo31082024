@@ -8,7 +8,7 @@ import com.fullstackdemo_31082024.fullstackdemo_31082024.model.WithdrawlRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 
 public class AtmController {
     @PostMapping(value="/api/createAtm",

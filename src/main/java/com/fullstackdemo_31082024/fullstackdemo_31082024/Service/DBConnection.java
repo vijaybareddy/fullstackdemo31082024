@@ -1,9 +1,12 @@
 package com.fullstackdemo_31082024.fullstackdemo_31082024.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+@Service
 public class DBConnection {
     public static Connection connection;
 
