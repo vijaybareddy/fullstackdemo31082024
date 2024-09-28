@@ -1,8 +1,6 @@
-//package entity;
 package entity;
 
-
-
+import entity.AccountAddressEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,33 +8,32 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Table(name = "account",schema = "bank")
 @Entity
+@Table(name = "account", schema = "bank")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor  // Added for easier use by frameworks
 public class AccountEntity {
-    public AccountEntity(){
 
-    }
-
-    @Column(name = "name",nullable = false)
-    private String name;
     @Id
-    @Column(name = "accountnumber",nullable = false)
-    private String accountnumber;
-    @Column(name = "pan",nullable = false)
+    @Column(name = "accountnumber")
+    private String accountNumber;  // Use camelCase for field name
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "pan", nullable = false)
     private String pan;
-    @Column(name = "moblienumber",nullable = false)
-    private String moblieNumber;
-    @Column(name = "balance",nullable = false)
+
+    @Column(name = "mobilenumber", nullable = false)  // Corrected column name
+    private String mobileNumber;
+
+    @Column(name = "balance", nullable = false)
     private double balance;
-    @Column(name = "address",nullable = false)
+
+    @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "accountEntity",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-    public List<AccountAddressEntity> accountAddressEntityList;
-
-
-
-
+    @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AccountAddressEntity> accountAddressEntityList;
 }

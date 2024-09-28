@@ -72,12 +72,12 @@ public class AccountService {
         entityManager.getTransaction().begin();
 
         AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setAccountnumber(UUID.randomUUID().toString());
+        accountEntity.setAccountNumber(UUID.randomUUID().toString());
         accountEntity.setName(account.getName());
         accountEntity.setPan(account.getPan());
         accountEntity.setBalance(account.getBalance());
         accountEntity.setAddress("hyd");
-        accountEntity.setMoblieNumber(account.getMobileNumber());
+        accountEntity.setMobileNumber(account.getMobileNumber());
 
         List<AccountAddressEntity> addressEntityList = new ArrayList<>();
         AccountAddressEntity accountAddressEntity = new AccountAddressEntity();
@@ -97,7 +97,7 @@ public class AccountService {
         entityManager.close();
         emf.close();
 
-        return accountEntity.getAccountnumber();
+        return accountEntity.getAccountNumber();
     }
 
 
@@ -111,8 +111,8 @@ public class AccountService {
         List<AccountEntity> accountEntities = query.getResultList();
         AccountEntity accountEntity=accountEntities.get(0);
         Account account= Account.builder()
-                .accountnumber(accountEntity.getAccountnumber())
-                .mobileNumber(accountEntity.getMoblieNumber())
+                .accountnumber(accountEntity.getAccountNumber())
+                .mobileNumber(accountEntity.getMobileNumber())
                 .pan(accountEntity.getPan())
                 .balance(accountEntity.getBalance())
                 .name(accountEntity.getName())
@@ -148,9 +148,9 @@ public class AccountService {
 
         System.out.println("Account is Loaded");
         Account account = Account.builder()
-                .accountnumber(accountEntity.getAccountnumber())
+                .accountnumber(accountEntity.getAccountNumber())
                 .name(accountEntity.getName())
-                .mobileNumber(accountEntity.getMoblieNumber())
+                .mobileNumber(accountEntity.getMobileNumber())
                 .balance(accountEntity.getBalance())
                 .pan(accountEntity.getPan())
                 .address(
@@ -192,11 +192,11 @@ public class AccountService {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setAccountnumber(UUID.randomUUID().toString());
+        accountEntity.setAccountNumber(UUID.randomUUID().toString());
         accountEntity.setName(account.getName());
         accountEntity.setPan(account.getPan());
         accountEntity.setBalance(account.getBalance());
-        accountEntity.setMoblieNumber(account.getMobileNumber());
+        accountEntity.setMobileNumber(account.getMobileNumber());
 
         List<AccountAddressEntity> addressEntityList = new ArrayList<>();
         AccountAddressEntity accountAddressEntity = new AccountAddressEntity();
@@ -213,7 +213,7 @@ public class AccountService {
 
         session.persist(accountEntity);
         transaction.commit();
-        return accountEntity.getAccountnumber();
+        return accountEntity.getAccountNumber();
 
     }
 
@@ -245,15 +245,15 @@ public class AccountService {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setAccountnumber(UUID.randomUUID().toString());
+        accountEntity.setAccountNumber(UUID.randomUUID().toString());
         accountEntity.setName(account.getName());
         accountEntity.setPan(account.getPan());
         accountEntity.setBalance(account.getBalance());
-        accountEntity.setMoblieNumber(account.getMobileNumber());
+        accountEntity.setMobileNumber(account.getMobileNumber());
 
         session.persist(accountEntity);
         transaction.commit();
-        return accountEntity.getAccountnumber();
+        return accountEntity.getAccountNumber();
 
     }
 

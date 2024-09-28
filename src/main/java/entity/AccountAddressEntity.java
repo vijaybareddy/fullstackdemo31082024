@@ -1,15 +1,14 @@
 package entity;
 
-import entity.AadharEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name ="account_address",schema = "bank")
+@Table(name = "account_address", schema = "bank")
 @Data
-public class AccountAddressEntity{
-    public  AccountAddressEntity () {
-    }
+public class AccountAddressEntity {
+    public AccountAddressEntity() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -34,6 +33,6 @@ public class AccountAddressEntity{
     private Integer status;
 
     @ManyToOne
-    @JoinColumn(name = "accountnumber",referencedColumnName = "accountnumber")
+    @JoinColumn(name = "accountnumber", referencedColumnName = "accountnumber")
     private AccountEntity accountEntity;
 }

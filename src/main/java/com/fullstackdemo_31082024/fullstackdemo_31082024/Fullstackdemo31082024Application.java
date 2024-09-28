@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
+@EntityScan(basePackages = "entity")
 @EnableJpaRepositories(basePackages = "com.fullstackdemo_31082024.fullstackdemo_31082024.Repository")
-@EntityScan(basePackages = "entity") // Add this line if it's not already present
 public class Fullstackdemo31082024Application {
 
 	public static void main(String[] args) {
